@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熊飞燕专属礼物</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Arial", sans-serif;
+        }
+        body {
+            background: #f8f5f0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .gift-box {
+            text-align: center;
+            background: white;
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            max-width: 350px;
+            width: 100%;
+            transition: opacity 0.5s ease;
+        }
+        .gift-box.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .gift-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+            color: #ff9f43;
+        }
+        .gift-title {
+            font-size: 26px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .gift-desc {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .btn-open {
+            padding: 12px 36px;
+            background: #ff9f43;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .btn-open:hover {
+            background: #e68a33;
+        }
+
+        /* 提示墙样式 */
+        .note-wall {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        .note-wall.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .note {
+            position: absolute;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 1px solid #eee;
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(1deg); }
+            50% { transform: translateY(0) rotate(-1deg); }
+            75% { transform: translateY(8px) rotate(0.5deg); }
+        }
+        .note-icon {
+            font-size: 14px;
+            margin-right: 5px;
+            color: #ff4d6d;
+        }
+        .note-text {
+            font-size: 14px;
+            color: #333;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div class="gift-box" id="giftBox">
+        <div class="gift-icon">🎃</div>
+        <h1 class="gift-title">神秘的礼物</h1>
+        <p class="gift-desc">您有一份神秘礼物，确定要打开吗?</p>
+        <button class="btn-open" onclick="showExclusiveWall()">确定打开</button>
+    </div>
+
+    <div class="note-wall" id="noteWall">
+        <!-- 提示框将自动生成 -->
+    </div>
+
+    <script>
+        const noteTexts = [
+            "💖 熊飞燕专属",
+            "💖 多吃点饭",
+            "💖 少吃点辣椒",
+            "💖 每天开开心心",
+            "💖 要好好做自己",
+            "💖 当个大美女",
+            "💖 多笑一点",
+            "💖 多加衣",
+            "💖 天冷了记得回家",
+            "💖 少化妆",
+            "💖 少抽烟",
+            "💖 少吃槟榔"
+        ];
+        const noteBgColors = [
+            "rgba(255, 220, 220, 0.9)",
+            "rgba(220, 255, 220, 0.9)",
+            "rgba(220, 220, 255, 0.9)",
+            "rgba(255, 255, 220, 0.9)",
+            "rgba(255, 220, 255, 0.9)"
+        ];
+
+        function createNote() {
+            const randomText = noteTexts[Math.floor(Math.random() * noteTexts.length)];
+            const randomBg = noteBgColors[Math.floor(Math.random() * noteBgColors.length)];
+            const randomTop = `${Math.random() * 80 + 10}%`;
+            const randomLeft = `${Math.random() * 80 + 10}%`;
+            const randomWidth = `${Math.random() * 50 + 100}px`;
+            const randomDelay = `${Math.random() * 5}s`;
+
+            const note = document.createElement("div");
+            note.className = "note";
+            note.style.backgroundColor = randomBg;
+            note.style.left = randomLeft;
+            note.style.top = randomTop;
+            note.style.width = randomWidth;
+            note.style.animationDelay = randomDelay;
+            note.innerHTML = randomText;
+            document.getElementById("noteWall").appendChild(note);
+        }
+
+        function showExclusiveWall() {
+            document.getElementById("giftBox").classList.add("hidden");
+            document.getElementById("noteWall").classList.add("active");
+            
+            // 初始化生成15个提示框
+            for (let i = 0; i < 15; i++) {
+                createNote();
+            }
+
+            // 每0.1秒自动生成一个新提示框
+            setInterval(createNote, 100);
+        }
+    </script>
+</body>
+</html>
